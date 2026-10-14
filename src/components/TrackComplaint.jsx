@@ -53,7 +53,7 @@ const TrackComplaint = () => {
     };
 
     const getStatusClass = (status) => {
-        return status.toLowerCase().replace(' ', '-');
+        return String(status || '').toLowerCase().replace(' ', '-');
     };
 
     return (
