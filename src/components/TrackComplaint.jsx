@@ -3,6 +3,7 @@ import { Search, AlertCircle, CheckCircle, Clock, MapPin, Phone, User, Calendar 
 import './TrackComplaint.css';
 
 import { API_BASE, API_ORIGIN } from '../services/api';
+import { statusBadgeClass } from '../utils/complaintStatus';
 
 const TrackComplaint = () => {
     const [complaintId, setComplaintId] = useState('');
@@ -52,9 +53,7 @@ const TrackComplaint = () => {
         }
     };
 
-    const getStatusClass = (status) => {
-        return String(status || '').toLowerCase().replace(' ', '-');
-    };
+    const getStatusClass = (status) => statusBadgeClass(status);
 
     return (
         <div className="track-complaint">
