@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
+const VolunteerRequest = require('../models/VolunteerRequest');
 const { JWT_SECRET } = require('../config/jwt');
 
 const getAdminCredentials = () => ({
@@ -40,7 +41,7 @@ const signToken = (user) => {
 
 const signup = async (req, res, next) => {
     try {
-        const { name, email, password } = req.body || {};
+        const { name, email, password, role: requestedRole } = req.body || {};
 
         if (typeof name !== 'string' || !name.trim()) {
             return res.status(400).json({ success: false, error: { message: 'Name is required' } });
@@ -69,9 +70,15 @@ const signup = async (req, res, next) => {
 
         const token = signToken(user);
 
+        let pendingVolunteer = false;
+        if (String(requestedRole).toLowerCase() === 'volunteer') {
+            await VolunteerRequest.create({ userId: user.id });
+            pendingVolunteer = true;
+        }
+
         return res.status(201).json({
             success: true,
-            data: { token, user }
+            data: { token, user, pendingVolunteer }
         });
     } catch (err) {
         return next(err);
