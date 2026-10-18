@@ -152,6 +152,8 @@ const initDatabase = async () => {
             'CREATE INDEX IF NOT EXISTS idx_comments_complaint_id ON comments(complaint_id)',
             'CREATE INDEX IF NOT EXISTS idx_joins_complaint_id ON complaint_joins(complaint_id)',
             'CREATE INDEX IF NOT EXISTS idx_joins_user_id ON complaint_joins(user_id)',
+            'CREATE UNIQUE INDEX IF NOT EXISTS idx_joins_user_unique ON complaint_joins(complaint_id, user_id) WHERE user_id IS NOT NULL',
+            'CREATE UNIQUE INDEX IF NOT EXISTS idx_joins_session_unique ON complaint_joins(complaint_id, session_id) WHERE session_id IS NOT NULL',
             'CREATE INDEX IF NOT EXISTS idx_volunteer_requests_user_id ON volunteer_requests(user_id)',
             'CREATE INDEX IF NOT EXISTS idx_volunteer_requests_status ON volunteer_requests(status)',
         ];

@@ -216,16 +216,13 @@ class Complaint {
      * @returns {Object} Updated complaint
      */
     static async join(id, userId = null, sessionId = null) {
-        const identifier = userId || sessionId;
-        if (identifier) {
-            const col = userId ? 'user_id' : 'session_id';
-            const existing = await pool.query(
-                `SELECT id FROM complaint_joins WHERE complaint_id = $1 AND ${col} = $2 LIMIT 1`,
-                [id, identifier]
-            );
-            if (existing.rows.length > 0) {
-                return { alreadyJoined: true };
-            }
+        const insertResult = await pool.query(
+            `INSERT OR IGNORE INTO complaint_joins (complaint_id, user_id, session_id) VALUES ($1, $2, $3)`,
+            [id, userId, sessionId]
+        );
+
+        if (insertResult.rowCount === 0) {
+            return { alreadyJoined: true };
         }
 
         const query = `
@@ -235,16 +232,7 @@ class Complaint {
             RETURNING *
         `;
         const result = await pool.query(query, [id]);
-        const complaint = result.rows[0] || null;
-
-        if (complaint) {
-            await pool.query(
-                `INSERT INTO complaint_joins (complaint_id, user_id, session_id) VALUES ($1, $2, $3)`,
-                [id, userId, sessionId]
-            );
-        }
-
-        return complaint;
+        return result.rows[0] || null;
     }
 
     /**
