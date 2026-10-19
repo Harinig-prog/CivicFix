@@ -1,6 +1,7 @@
 import React from 'react';
 import { AlertCircle, CheckCircle, Clock, MapPin, Phone, User, Calendar } from 'lucide-react';
 import { statusBadgeClass } from '../utils/complaintStatus.js';
+import { formatServerDate } from '../utils/dateTime.js';
 
 const el = React.createElement;
 
@@ -73,11 +74,11 @@ const TrackComplaintResult = ({ complaint, imageBase = '' }) => {
                 el('div', { className: 'result-footer' },
                     el('div', { className: 'timestamp' },
                         el(Calendar, { className: 'timestamp-icon' }),
-                        el('span', null, `Submitted on ${new Date(complaint.created_at).toLocaleDateString('en-IN', {
+                        el('span', null, `Submitted on ${formatServerDate(complaint.created_at, 'en-IN', {
                             day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
                         })}`)),
                     el('div', { className: 'last-updated' },
-                        `Last updated: ${new Date(complaint.updated_at).toLocaleDateString('en-IN', {
+                        `Last updated: ${formatServerDate(complaint.updated_at, 'en-IN', {
                             day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
                         })}`)))),
         el('div', { className: 'status-timeline' },

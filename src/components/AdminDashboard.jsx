@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import './AdminDashboard.css';
 import { API_BASE } from '../services/api';
+import { formatServerDate } from '../utils/dateTime';
 
 const DEPARTMENTS = [
     'All Departments',
@@ -541,7 +542,7 @@ const AdminDashboard = () => {
                                                     </span>
                                                     <span className="date-tag">
                                                         <Calendar className="date-icon" />
-                                                        {new Date(complaint.created_at).toLocaleDateString()}
+                                                        {formatServerDate(complaint.created_at)}
                                                     </span>
                                                 </div>
                                             </div>

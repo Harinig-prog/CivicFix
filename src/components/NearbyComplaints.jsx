@@ -1,14 +1,10 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { API_BASE, API_ORIGIN } from '../services/api';
+import { formatServerDate } from '../utils/dateTime';
 import './NearbyComplaints.css';
 
-const formatDate = (value) => {
-  if (!value) return '';
-  const iso = String(value).replace(' ', 'T');
-  const d = new Date(iso);
-  return Number.isNaN(d.getTime()) ? String(value) : d.toLocaleDateString();
-};
+const formatDate = (value) => formatServerDate(value);
 
 const statusClass = (status) => {
   return String(status || '')

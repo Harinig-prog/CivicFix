@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { API_BASE } from "../services/api";
+import { formatServerDate } from "../utils/dateTime";
 import "./VolunteerDashboard.css";
 
 const HIGH_CASE_VOLUNTEER_THRESHOLD = 10;
@@ -185,7 +186,7 @@ const VolunteerDashboard = () => {
                         {myCases.map((r) => {
                             const sevDisplay = formatSeverity(r.severity);
                             const place = r.place || (r.area ? `${r.area}${r.city ? ", " + r.city : ""}` : "Location not specified");
-                            const dateDisplay = r.date || (r.created_at ? new Date(r.created_at).toLocaleDateString() : "");
+                            const dateDisplay = r.date || formatServerDate(r.created_at);
 
                             return (
                                 <div className="vcard claimed" key={r.id}>
@@ -240,7 +241,7 @@ const VolunteerDashboard = () => {
                         {filteredAvailable.map((r) => {
                             const sevDisplay = formatSeverity(r.severity);
                             const place = r.place || (r.area ? `${r.area}${r.city ? ", " + r.city : ""}` : "Location not specified");
-                            const dateDisplay = r.date || (r.created_at ? new Date(r.created_at).toLocaleDateString() : "");
+                            const dateDisplay = r.date || formatServerDate(r.created_at);
 
                             return (
                                 <div className="vcard" key={r.id}>

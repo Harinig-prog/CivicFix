@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatServerDateTime } from './dateTime.js';
 
 export const DEFAULT_API_BASE = 'http://localhost:3000/api';
 
@@ -19,12 +20,7 @@ export const fetchLiveFeed = async (apiBase, fetchFn = fetch) => {
 /**
  * Format a date string/timestamp for display.
  */
-export const formatDateTime = (value) => {
-  if (!value) return '';
-  const iso = String(value).replace(' ', 'T');
-  const d = new Date(iso);
-  return Number.isNaN(d.getTime()) ? String(value) : d.toLocaleString();
-};
+export const formatDateTime = (value) => formatServerDateTime(value);
 
 /**
  * Fetch comments for a specific complaint from the backend API.
