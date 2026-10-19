@@ -7,7 +7,7 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "init-db": "node src/config/initDatabase.js",
-    "test": "node --require ./tests/setup-env.js --test \"tests/**/*.test.js\" \"src/**/*.test.js\""
+    "test": "node --require ./tests/setup-env.js --test --test-concurrency=1 \"tests/**/*.test.js\" \"src/**/*.test.js\""
   },
   "keywords": [
     "civic-tech",
